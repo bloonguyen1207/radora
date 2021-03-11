@@ -7,8 +7,8 @@
     "node": "15.11.0"
   },
   "scripts": {
-    "build": "webpack",
-    "start": "npm run build && webpack-dev-server --config webpack/base.js --disable-host-check"
+    "build": "webpack --config webpack/prod.js",
+    "start": "webpack-dev-server --config webpack/base.js --open"
   },
   "repository": {
     "type": "git",
