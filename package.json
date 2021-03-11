@@ -4,8 +4,9 @@
   "description": "Galaga rip off - Airthings style",
   "main": "src/index.js",
   "scripts": {
-    "build": "webpack --config webpack/prod.js ",
-    "start": "webpack-dev-server --config webpack/base.js --open"
+    "build": "webpack --config webpack/prod.js",
+    "start": "webpack-dev-server --config webpack/base.js --open",
+    "start-prod": "webpack --config webpack/prod.js --open"
   },
   "repository": {
     "type": "git",
