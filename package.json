@@ -7,8 +7,9 @@
     "node": "15.11.0"
   },
   "scripts": {
+    "dev": "webpack-dev-server --config webpack/base.js --open",
     "build": "webpack --config webpack/prod.js",
-    "start": "webpack-dev-server --config webpack/base.js --open"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "phaser": "^3.53.1"
   }
 }

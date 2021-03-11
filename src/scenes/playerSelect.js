@@ -2,6 +2,7 @@ import fontTexture from "../assets/fonts/bitmap/elfboy-classic.png";
 import fontData from "../assets/fonts/bitmap/elfboy-classic.xml";
 import waveMini from "../assets/protagonists/WaveMini.svg";
 import wavePlus from "../assets/protagonists/WavePlus.svg";
+import startBtn from "../assets/start_btn.png";
 
 import { waveMiniData, wavePlusData, toggleContainer } from "../commons/constants";
 
@@ -19,6 +20,8 @@ class PlayerSelectScene extends Phaser.Scene {
 
         this.load.svg('waveMini', waveMini, { scale: 1.5 });
         this.load.svg('wavePlus', wavePlus, { scale: 1.5 });
+
+        this.load.image('start_btn', startBtn);
     }
 
     create() {
@@ -79,16 +82,14 @@ class PlayerSelectScene extends Phaser.Scene {
         wavePlusContainer = this.add.container(0, 0, [wavePlus, wavePlusName, wavePlusDescription]).setVisible(false)
 
 
+        const start_btn = this.add.image(600, 550, 'start_btn').setOrigin(0.5).setScale(0.3).setInteractive()
+        // TODO: Add arrow
         this.input.on('pointerdown', (_pointer) => {
             toggleContainer(waveMiniContainer, wavePlusContainer);
         })
-        // // Touch and mouse input
-        // this.input.on('pointerdown', (_pointer) => {
-        //     this.scene.start('PlayScene');
-        // })
-        //
+
         // Keyboard input
-        this.input.keyboard.on('keydown', (_event) => {
+        start_btn.on('pointerdown', (_pointer) => {
             this.scene.start('PlayScene');
         })
     }
