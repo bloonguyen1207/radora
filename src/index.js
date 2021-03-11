@@ -1,16 +1,22 @@
-import Phaser from 'phaser'
-import StartScene from './scenes/start'
+import Phaser from 'phaser';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "./commons/constants";
+import StartScene from './scenes/start';
+import PlayerSelectScene from './scenes/playerSelect';
+import PlayScene from './scenes/play';
+import EndGameScene from './scenes/endGame';
 
 const config = {
     type: Phaser.AUTO,
     scale: {
         mode: Phaser.Scale.FIT,
-        parent: 'radon-run',
+        parent: 'radora',
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 1200,
-        height: 800,
+        pixelArt: true,
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT,
     },
     scene: StartScene
+    //scene: [StartScene, PlayerSelectScene, PlayScene, EndGameScene]
 };
 
 const game = new Phaser.Game(config);
