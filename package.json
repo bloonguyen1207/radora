@@ -6,7 +6,6 @@
   "scripts": {
     "build": "webpack --config webpack/prod.js",
     "start": "webpack-dev-server --config webpack/base.js --open",
-    "start-prod": "webpack --config webpack/prod.js --open"
   },
   "repository": {
     "type": "git",
