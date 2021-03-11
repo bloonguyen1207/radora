@@ -17,12 +17,12 @@ class StartScene extends Phaser.Scene {
 
     create() {
         // this.cameras.main.setBackgroundColor('#fff')
-        this.add.bitmapText(600, 250, 'elfboy', 'RADORA', 80);
+        this.add.bitmapText(600, 250, 'elfboy', 'RADORA').setOrigin(0.5);
 
-        this.add.text(510, 391, 'by');
-        this.add.image(600, 400, 'logo');
+        this.add.text(515, 311, 'by');
+        this.add.image(610, 320, 'logo');
 
-        const startText = this.add.text(450, 500, 'Click anywhere to continue')
+        const startText = this.add.bitmapText(600, 500,'elfboy', 'Click anywhere to continue', 32).setOrigin(0.5)
         TweenHelper.flashElement(this, startText)
 
         // Touch and mouse input

@@ -15,8 +15,8 @@ const config = {
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
     },
-    scene: StartScene
-    //scene: [StartScene, PlayerSelectScene, PlayScene, EndGameScene]
+    scene: PlayerSelectScene
+    // scene: [StartScene, PlayerSelectScene, PlayScene, EndGameScene]
 };
 
 const game = new Phaser.Game(config);
