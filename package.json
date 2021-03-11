@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Galaga rip off - Airthings style",
   "main": "src/index.js",
+  "engines": {
+    "node": "15.11.0"
+  },
   "scripts": {
     "build": "webpack --config webpack/prod.js",
     "start": "webpack-dev-server --config webpack/base.js --open"
