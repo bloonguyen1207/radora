@@ -22,17 +22,17 @@ class StartScene extends Phaser.Scene {
         this.add.text(515, 311, 'by');
         this.add.image(610, 320, 'logo');
 
-        const startText = this.add.bitmapText(600, 500,'elfboy', 'Click anywhere to continue', 32).setOrigin(0.5)
+        const startText = this.add.bitmapText(600, 500,'elfboy', 'Click/tap anywhere to continue', 32).setOrigin(0.5)
         TweenHelper.flashElement(this, startText)
 
         // Touch and mouse input
         this.input.on('pointerdown', (_pointer) => {
-            this.scene.start('PlayerSelectScene');
+            this.scene.start('PlayScene');
         })
 
         // Keyboard input
         this.input.keyboard.on('keydown', (_event) => {
-            this.scene.start('PlayerSelectScene');
+            this.scene.start('PlayScene');
         })
     }
 }

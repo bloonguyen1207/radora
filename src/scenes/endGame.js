@@ -12,6 +12,11 @@ class EndGameScene extends Phaser.Scene {
         });
     }
 
+    init(data) {
+        this.data.set('level', data.level)
+        this.data.set('score', data.score)
+    }
+
     preload() {
         this.load.bitmapFont('elfboy', fontTexture, fontData);
 
@@ -23,9 +28,12 @@ class EndGameScene extends Phaser.Scene {
 
     create() {
         // this.cameras.main.setBackgroundColor('#fff')
-        this.add.bitmapText(600, 250, 'elfboy', 'End Game Scene');
+        this.add.bitmapText(600, 150, 'elfboy', 'Game Over').setOrigin(0.5);
 
-        const endText = this.add.text(450, 500, 'Click anywhere to restart')
+        this.add.bitmapText(600, 250, 'elfboy', `Level: ${this.data.get('level')}`, 48).setOrigin(0.5);
+        this.add.bitmapText(600, 300, 'elfboy', `Score: ${this.data.get('score')}`, 48).setOrigin(0.5);
+
+        const endText = this.add.bitmapText(600, 500, 'elfboy', 'Click/tap anywhere to restart', 32).setOrigin(0.5)
         TweenHelper.flashElement(this, endText)
 
         // Touch and mouse input

@@ -15,15 +15,14 @@ const config = {
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
     },
-    scene: PlayScene,
     physics: {
         default: 'arcade',
         arcade: {
             debug: false,
             gravity: { y: 0 }
         }
-    }
-    // scene: [StartScene, PlayerSelectScene, PlayScene, EndGameScene]
+    },
+    scene: [StartScene, PlayScene, EndGameScene]
 };
 
 const game = new Phaser.Game(config);
