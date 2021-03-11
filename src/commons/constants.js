@@ -14,3 +14,13 @@ export const wavePlusData = {
     moveSpeed: 150,
     shootSpeed: 300
 }
+
+export const toggleContainer = (container1, container2) => {
+    if (container1.visible) {
+        container1.setVisible(false)
+        container2.setVisible(true)
+    } else {
+        container1.setVisible(true)
+        container2.setVisible(false)
+    }
+}

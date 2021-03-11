@@ -3,7 +3,9 @@ import fontData from "../assets/fonts/bitmap/elfboy-classic.xml";
 import waveMini from "../assets/protagonists/WaveMini.svg";
 import wavePlus from "../assets/protagonists/WavePlus.svg";
 
-import { waveMiniData, wavePlusData } from "../commons/constants";
+import { waveMiniData, wavePlusData, toggleContainer } from "../commons/constants";
+
+let waveMiniContainer, wavePlusContainer;
 
 class PlayerSelectScene extends Phaser.Scene {
     constructor() {
@@ -31,7 +33,7 @@ class PlayerSelectScene extends Phaser.Scene {
         waveMini.data.set('moveSpeed', waveMiniData.moveSpeed);
         waveMini.data.set('shootSpeed', waveMiniData.shootSpeed);
 
-        this.add.bitmapText(
+        const waveMiniName = this.add.bitmapText(
             600,
             220,
             'elfboy',
@@ -39,8 +41,7 @@ class PlayerSelectScene extends Phaser.Scene {
             24
         ).setOrigin(0.5)
 
-        // this.add.image(800, 300, 'wavePlus');
-        this.add.bitmapText(
+        const waveMiniDescription = this.add.bitmapText(
             600,
             450,
             'elfboy',
@@ -49,11 +50,43 @@ class PlayerSelectScene extends Phaser.Scene {
             1
         ).setOrigin(0.5)
 
-        // Touch and mouse input
-        this.input.on('pointerdown', (_pointer) => {
-            this.scene.start('PlayScene');
-        })
+        waveMiniContainer = this.add.container(0, 0, [waveMini, waveMiniName, waveMiniDescription])
 
+        const wavePlus = this.add.image(600, 330, 'wavePlus').setOrigin(0.5);
+        wavePlus.setDataEnabled();
+
+        wavePlus.data.set('name', wavePlusData.name);
+        wavePlus.data.set('description', wavePlusData.description);
+        wavePlus.data.set('moveSpeed', wavePlusData.moveSpeed);
+        wavePlus.data.set('shootSpeed', wavePlusData.shootSpeed);
+
+        const wavePlusName = this.add.bitmapText(
+            600,
+            220,
+            'elfboy',
+            wavePlus.data.get('name'),
+            24
+        ).setOrigin(0.5)
+        const wavePlusDescription = this.add.bitmapText(
+            600,
+            450,
+            'elfboy',
+            wavePlus.data.get('description'),
+            24,
+            1
+        ).setOrigin(0.5)
+
+        wavePlusContainer = this.add.container(0, 0, [wavePlus, wavePlusName, wavePlusDescription]).setVisible(false)
+
+
+        this.input.on('pointerdown', (_pointer) => {
+            toggleContainer(waveMiniContainer, wavePlusContainer);
+        })
+        // // Touch and mouse input
+        // this.input.on('pointerdown', (_pointer) => {
+        //     this.scene.start('PlayScene');
+        // })
+        //
         // Keyboard input
         this.input.keyboard.on('keydown', (_event) => {
             this.scene.start('PlayScene');
