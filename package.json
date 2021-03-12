@@ -4,7 +4,8 @@
   "description": "Galaga rip off - Airthings style",
   "main": "src/index.js",
   "engines": {
-    "node": "15.11.0"
+    "node": "15.11.0",
+    "npm": "7.6.0"
   },
   "scripts": {
     "dev": "webpack-dev-server --config webpack/base.js --open",
