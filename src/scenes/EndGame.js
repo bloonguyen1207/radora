@@ -3,7 +3,7 @@ import fontData from "../assets/fonts/bitmap/elfboy-classic.xml";
 import waveMini from "../assets/protagonists/WaveMini.svg";
 import wavePlus from "../assets/protagonists/WavePlus.svg";
 import radon from "../assets/enemies/Radon.svg";
-import TweenHelper from "../commons/TweenHelper";
+import TweenFactory from "../factory/TweenFactory";
 
 class EndGameScene extends Phaser.Scene {
     constructor() {
@@ -34,7 +34,7 @@ class EndGameScene extends Phaser.Scene {
         this.add.bitmapText(600, 300, 'elfboy', `Score: ${this.data.get('score')}`, 48).setOrigin(0.5);
 
         const endText = this.add.bitmapText(600, 500, 'elfboy', 'Click/tap anywhere to restart', 32).setOrigin(0.5)
-        TweenHelper.flashElement(this, endText)
+        TweenFactory.flash(this, endText)
 
         // Touch and mouse input
         this.input.on('pointerdown', (_pointer) => {

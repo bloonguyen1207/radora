@@ -1,7 +1,7 @@
 import logoImg from '../assets/logo.png';
 import fontTexture from '../assets/fonts/bitmap/elfboy-classic.png';
 import fontData from '../assets/fonts/bitmap/elfboy-classic.xml';
-import TweenHelper from "../commons/TweenHelper";
+import TweenFactory from "../factory/TweenFactory";
 
 class StartScene extends Phaser.Scene {
     constructor() {
@@ -23,7 +23,7 @@ class StartScene extends Phaser.Scene {
         this.add.image(610, 320, 'logo');
 
         const startText = this.add.bitmapText(600, 500,'elfboy', 'Click/tap anywhere to continue', 32).setOrigin(0.5)
-        TweenHelper.flashElement(this, startText)
+        TweenFactory.flash(this, startText)
 
         // Touch and mouse input
         this.input.on('pointerdown', (_pointer) => {

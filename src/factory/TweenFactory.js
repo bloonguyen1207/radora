@@ -1,7 +1,7 @@
 // Ref: https://www.stephengarside.co.uk/blog/phaser-3-flashing-text-easy-example/
 
-export default class TweenHelper {
-    static flashElement(scene, element, repeat = true, easing = 'Linear', overallDuration = 1500, visiblePauseDuration = 500) {
+export default class TweenFactory {
+    static flash(scene, element, repeat = true, easing = 'Linear', overallDuration = 1500, visiblePauseDuration = 500) {
         if (scene && element) {
             let flashDuration = overallDuration - visiblePauseDuration / 2;
 
@@ -32,7 +32,7 @@ export default class TweenHelper {
                         ease: easing,
                         onComplete: () => {
                             if (repeat === true) {
-                                this.flashElement(scene, element);
+                                this.flash(scene, element);
                             }
                         }
                     }
