@@ -1,10 +1,7 @@
-export default class Player extends Phaser.Physics.Arcade.Sprite {
-    constructor (scene, x, y, playerType) {
-        super(scene, x, y, playerType);
-    }
-
-    kill() {
-        this.setActive(false);
-        this.setVisible(false);
+export default class Player {
+    static spawn(scene, playerType) {
+        let player = scene.physics.add.sprite(400, 500, playerType);
+        player.setCollideWorldBounds(true);
+        return player;
     }
 }

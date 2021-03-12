@@ -63,7 +63,7 @@ class PlayScene extends Phaser.Scene {
         this.generateAirthings()
 
         // Player
-        // this.player = Player.
+        // this.player = Player.spawn(this, 'waveMini')
         this.spawnPlayer()
 
         // Player move
