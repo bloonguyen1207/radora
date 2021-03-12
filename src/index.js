@@ -8,9 +8,9 @@ import EndGameScene from './scenes/EndGame';
 const config = {
     type: Phaser.AUTO,
     scale: {
-        // mode: Phaser.Scale.FIT,
+        mode: Phaser.Scale.FIT,
         parent: 'radora',
-        // autoCenter: Phaser.Scale.CENTER_BOTH,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
         pixelArt: true,
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
