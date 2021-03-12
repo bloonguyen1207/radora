@@ -4,6 +4,8 @@ import waveMini from "../assets/protagonists/WaveMini.svg";
 import wavePlus from "../assets/protagonists/WavePlus.svg";
 import radon from "../assets/enemies/Radon.svg";
 import bullet from "../assets/bullet.png"
+
+import Player from "../models/Player";
 import BulletManager from "../managers/BulletManager";
 import {waveMiniData} from "../commons/constants";
 
@@ -61,6 +63,7 @@ class PlayScene extends Phaser.Scene {
         this.generateAirthings()
 
         // Player
+        // this.player = Player.
         this.spawnPlayer()
 
         // Player move
