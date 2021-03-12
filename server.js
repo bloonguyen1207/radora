@@ -10,6 +10,6 @@ app.get('*', (req, res) => {
     res.sendFile(HTML_FILE);
 });
 
-const PORT = process.env.PORT || 8080;
-
-app.listen(PORT, () => {});
+app.listen(8080, () => {
+    console.log('Server listening on http://localhost:8080');
+});

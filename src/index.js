@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "./commons/constants";
-import StartScene from './scenes/start';
-import PlayerSelectScene from './scenes/playerSelect';
-import PlayScene from './scenes/play';
-import EndGameScene from './scenes/endGame';
+import StartScene from './scenes/Start';
+import PlayerSelectScene from './scenes/PlayerSelect';
+import PlayScene from './scenes/Play';
+import EndGameScene from './scenes/EndGame';
 
 const config = {
     type: Phaser.AUTO,

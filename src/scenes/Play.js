@@ -36,7 +36,7 @@ class PlayScene extends Phaser.Scene {
 
     create() {
 
-        this.data.set('lives', 1);
+        this.data.set('lives', 3);
         this.data.set('level', 1);
         this.data.set('score', 0);
 
