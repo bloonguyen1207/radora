@@ -10,7 +10,7 @@ const config = {
     scale: {
         mode: Phaser.Scale.FIT,
         parent: 'radora',
-        autoCenter: Phaser.Scale.CENTER_BOTH,
+        // autoCenter: Phaser.Scale.CENTER_BOTH,
         pixelArt: true,
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
