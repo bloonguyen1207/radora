@@ -1,5 +1,3 @@
-// Ref: https://www.stephengarside.co.uk/blog/phaser-3-flashing-text-easy-example/
-
 export default class TweenFactory {
     static flash(scene, element, repeat = true, overAllDuration = 1500, invisibleDuration = 1000, visibleDuration = 1000) {
         const easing = 'Linear';

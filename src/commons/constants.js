@@ -1,6 +1,11 @@
 export const SCREEN_WIDTH =  1200
 export const SCREEN_HEIGHT = 600
 
+export const MAX_ENEMY_SPAWN_TIME = 1500
+export const MIN_ENEMY_SPAWN_TIME = 100
+
+export const PLAYER_IMMORTAL_TIME = 3000
+
 export const waveMiniData = {
     name: 'Wave Mini',
     description: 'A small but furious fighter, \ncan move and shoot at high speed',
