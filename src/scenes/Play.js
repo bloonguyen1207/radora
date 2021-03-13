@@ -7,7 +7,27 @@ import bullet from "../assets/bullet.png"
 
 import Player from "../models/Player";
 import BulletManager from "../managers/BulletManager";
-import {waveMiniData} from "../commons/constants";
+import {SCREEN_WIDTH, waveMiniData} from "../commons/constants";
+import AirthingManager from "../managers/AirthingManager";
+import TweenFactory from "../factory/TweenFactory";
+
+var caption;
+
+var captionStyle = {
+    fill: '#7fdbff',
+    fontFamily: 'monospace',
+    lineSpacing: 4
+};
+
+var captionTextFormat = (
+    'Total:    %1\n' +
+    'Max:      %2\n' +
+    'Active:   %3\n' +
+    'Inactive: %4\n' +
+    'Used:     %5\n' +
+    'Free:     %6\n' +
+    'Full:     %7\n'
+);
 
 class PlayScene extends Phaser.Scene {
     constructor() {
@@ -17,11 +37,14 @@ class PlayScene extends Phaser.Scene {
 
         // TODO: get data from prev state
         this.player;
-        this.bullets;
         this.airthings;
+        this.bullets;
         this.scoreBoard;
         this.levelText;
         this.liveCount;
+        this.bulletTimer;
+        this.immortalTimer;
+        this.enemyTimer;
     }
 
     preload() {
@@ -37,6 +60,8 @@ class PlayScene extends Phaser.Scene {
     }
 
     create() {
+
+        caption = this.add.text(30, 100, '', captionStyle);
 
         this.data.set('lives', 3);
         this.data.set('level', 1);
@@ -56,92 +81,114 @@ class PlayScene extends Phaser.Scene {
         this.add.bitmapText(1055, 10, 'elfboy', 'Lives', 32)
         this.liveCount = this.add.group([{ key: 'waveMiniMini', frame: 0, repeat: this.data.get('lives') - 1, setXY: { x: 1050, y: 80, stepX: 50 } }])
 
+        // Enemies
+        this.airthings = new AirthingManager(this)
+
+        // Spawn enemy timer
+        this.time.addEvent({
+            delay: 1500,
+            loop: true,
+            callback: () => {
+                this.airthings.spawnAirthing(this.player)
+            }
+        });
+
         // Player bullet
         this.bullets = new BulletManager(this);
 
-        // Enemies
-        this.generateAirthings()
+        // Auto shoot timer
+        this.bulletTimer = this.time.addEvent({
+            delay: waveMiniData.shootSpeed,
+            loop: true,
+            callback: () => { this.bullets.fireBullet(this.player.x, this.player.y, waveMiniData.shootSpeed) }
+        })
 
         // Player
-        // this.player = Player.spawn(this, 'waveMini')
-        this.spawnPlayer()
+        this.addPlayerToWorld()
 
         // Player move
-        this.input.on('pointermove', function (pointer) {
+        this.input.on('pointermove',  (pointer) => {
             this.player.x = Phaser.Math.Clamp(pointer.x, 50, 1150);
         }, this);
 
-        // Player shoot
-        this.input.on('pointerdown', function (pointer) {
-            this.bullets.fireBullet(this.player.x, this.player.y, waveMiniData.shootSpeed);
-        }, this);
+        this.physics.add.collider(this.bullets, this.airthings, this.hitAirthing, null, this)
+        this.physics.add.collider(this.player, this.airthings, this.hitPlayer, null, this)
+
+        // // Player shoot
+        // this.input.on('pointerdown', function (_pointer) {
+        //     this.bullets.fireBullet(this.player.x, this.player.y, waveMiniData.shootSpeed);
+        // }, this);
     }
 
     update(time, delta) {
         super.update(time, delta);
 
-        // this.bullets.fireBullet(this.player.x, this.player.y, waveMiniData.shootSpeed);
-    }
+        Phaser.Actions.IncY(this.airthings.getChildren(), 1);
 
-    spawnPlayer() {
-        this.player = this.physics.add.image(600, 500, 'waveMini').setImmovable().setOrigin(.5);
-        this.physics.add.collider(this.player, this.airthings, this.hitPlayer, null, this)
+        caption.setText(Phaser.Utils.String.Format(captionTextFormat, [
+            this.airthings.getLength(),
+            this.airthings.maxSize,
+            this.airthings.countActive(true),
+            this.airthings.countActive(false),
+            this.airthings.getTotalUsed(),
+            this.airthings.getTotalFree(),
+            this.airthings.isFull()
+        ]));
     }
 
     hitAirthing(bullet, airthing) {
-        airthing.disableBody(true, true);
-        bullet.deactivate()
-        this.data.set('score', this.data.get('score') + 20)
+        this.airthings.remove(airthing, true, true)
+        this.bullets.killAndHide(bullet)
+
+        this.data.set('score', this.data.get('score') + 50)
         this.scoreBoard.setText(this.data.get('score'))
-        if (this.airthings.countActive() === 0)
+        if (this.data.get('score') / this.data.get('level') === 1000)
         {
-            this.newLevel();
+            this.data.set('level', this.data.get('level') + 1)
         }
     }
 
     hitPlayer(player, airthing) {
-        airthing.disableBody(true, true)
-        player.disableBody(true, true)
+        console.log('player hit')
+        this.airthings.remove(airthing, true, true)
+        player.destroy()
+
         this.liveCount.killAndHide(this.liveCount.getFirstAlive())
         this.data.set('lives', this.data.get('lives') - 1)
-        if (this.data.get('lives') > 0) {
-            this.resetLevel()
-        } else {
+        if (this.data.get('lives') <= 0) {
             this.scene.start('EndGameScene', {
                 score: this.data.get('score'),
                 level: this.data.get('level')
             });
+        } else {
+            this.addPlayerToWorld()
         }
     }
 
-    generateAirthings() {
-        // Enemies
-        this.airthings = this.physics.add.group({
-            key: 'radon',
-            frameQuantity: 15,
-            gridAlign: { width: 15, height: 1, cellWidth: 64, cellHeight: 32, x: 100, y: 150 },
-            bounceX: 1,
-            collideWorldBounds: true
-        });
+    addPlayerToWorld() {
+        this.player = Player.spawn(this, 'waveMini');
+        TweenFactory.flash(this, this.player, false, 3000, 200, 200)
 
-        this.airthings.setVelocityX(10, 5 * this.data.get('level'));
-        this.airthings.setVelocityY(1, 1 * this.data.get('level'));
-
-        this.physics.add.collider(this.bullets, this.airthings, this.hitAirthing, null, this)
-        this.player && this.physics.add.collider(this.player, this.airthings, this.hitPlayer, null, this)
+        // Auto shoot timer
+        this.immortalTimer = this.time.addEvent({
+            delay: 3000,
+            callback: () => {
+                this.physics.add.collider(this.player, this.airthings, this.hitPlayer, null, this)
+            }
+        })
     }
-
-    newLevel() {
-        this.data.set('level', this.data.get('level') + 1)
-        this.levelText.setText(this.data.get('level'))
-        this.generateAirthings()
-    }
-
-    resetLevel() {
-        this.airthings.clear(true, true)
-        this.generateAirthings()
-        this.spawnPlayer()
-    }
+    //
+    // newLevel() {
+    //     this.data.set('level', this.data.get('level') + 1)
+    //     this.levelText.setText(this.data.get('level'))
+    //     this.generateAirthings()
+    // }
+    //
+    // resetLevel() {
+    //     this.airthings.clear(true, true)
+    //     this.generateAirthings()
+    //     this.spawnPlayer()
+    // }
 }
 
 export default PlayScene

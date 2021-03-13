@@ -3,16 +3,6 @@ import {SCREEN_HEIGHT} from "../commons/constants";
 class Airthing extends Phaser.Physics.Arcade.Sprite {
     constructor (scene, x, y) {
         super(scene, x, y, 'radon');
-        this.setCollideWorldBounds(true)
-    }
-
-    move (x, y, velocity) {
-        this.body.reset(x, y);
-
-        this.setActive(true);
-        this.setVisible(true);
-
-        this.setVelocityY(-velocity);
     }
 
     deactivate () {

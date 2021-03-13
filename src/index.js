@@ -22,6 +22,7 @@ const config = {
             gravity: { y: 0 }
         }
     },
+    // scene: PlayScene,
     scene: [StartScene, PlayScene, EndGameScene]
 };
 

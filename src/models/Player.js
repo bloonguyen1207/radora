@@ -1,7 +1,9 @@
 export default class Player {
     static spawn(scene, playerType) {
-        let player = scene.physics.add.sprite(400, 500, playerType);
-        player.setCollideWorldBounds(true);
-        return player;
+        return scene.physics.add.sprite(600, 500, playerType)
+            .setOrigin(0.5)
+            .setBounce(1)
+            .setImmovable()
+            .setCollideWorldBounds(true);
     }
 }
