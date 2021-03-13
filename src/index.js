@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "./commons/constants";
 import StartScene from './scenes/Start';
-import PlayerSelectScene from './scenes/PlayerSelect';
 import PlayScene from './scenes/Play';
 import EndGameScene from './scenes/EndGame';
 
@@ -22,7 +21,6 @@ const config = {
             gravity: { y: 0 }
         }
     },
-    // scene: PlayScene,
     scene: [StartScene, PlayScene, EndGameScene]
 };
 

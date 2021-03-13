@@ -12,7 +12,7 @@ import {
     MAX_ENEMY_DROP_SPEED,
     MAX_ENEMY_SPAWN_TIME,
     MIN_ENEMY_SPAWN_TIME,
-    PLAYER_IMMORTAL_TIME,
+    PLAYER_IMMORTAL_TIME, SCREEN_WIDTH,
     waveMiniData
 } from "../commons/constants";
 
@@ -62,16 +62,16 @@ class PlayScene extends Phaser.Scene {
         this.scoreBoard = this.add.bitmapText(30, 50, 'elfboy', this.data.get('score'), 32)
 
         // Level
-        this.add.bitmapText(600, 10, 'elfboy', 'Level', 32).setOrigin(0.5, 0)
-        this.levelText = this.add.bitmapText(600, 50, 'elfboy', this.data.get('level'), 32).setOrigin(0.5, 0)
+        this.add.bitmapText(SCREEN_WIDTH / 2, 10, 'elfboy', 'Level', 32).setOrigin(0.5, 0)
+        this.levelText = this.add.bitmapText(SCREEN_WIDTH / 2, 50, 'elfboy', this.data.get('level'), 32).setOrigin(0.5, 0)
 
         // Lives
-        this.add.bitmapText(1055, 10, 'elfboy', 'Lives', 32)
+        const livesText = this.add.bitmapText(SCREEN_WIDTH - 150, 10, 'elfboy', 'Lives', 32)
         this.liveCount = this.add.group([{
             key: 'waveMiniMini',
             frame: 0,
             repeat: this.data.get('lives') - 1,
-            setXY: {x: 1050, y: 80, stepX: 50}
+            setXY: {x: livesText.x, y: 80, stepX: 50}
         }])
 
         // Enemies
@@ -108,6 +108,11 @@ class PlayScene extends Phaser.Scene {
 
         this.physics.add.collider(this.bullets, this.airthings, this.hitAirthing, null, this)
         this.physics.add.collider(this.player, this.airthings, this.hitPlayer, null, this)
+
+        // Keyboard input
+        this.input.keyboard.on('keydown-M', () => {
+            this.sound.setMute(!this.sound.mute)
+        }, this);
     }
 
     update(time, delta) {

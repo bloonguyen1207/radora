@@ -4,6 +4,7 @@ import waveMini from "../assets/protagonists/WaveMini.svg";
 import wavePlus from "../assets/protagonists/WavePlus.svg";
 import radon from "../assets/enemies/Radon.svg";
 import TweenFactory from "../factory/TweenFactory";
+import {CONTINUE_TEXT, SCREEN_HEIGHT, SCREEN_WIDTH} from "../commons/constants";
 
 class EndGameScene extends Phaser.Scene {
     constructor() {
@@ -27,13 +28,12 @@ class EndGameScene extends Phaser.Scene {
     }
 
     create() {
-        // this.cameras.main.setBackgroundColor('#fff')
-        this.add.bitmapText(600, 150, 'elfboy', 'Game Over').setOrigin(0.5);
+        const gameOverText = this.add.bitmapText(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 200, 'elfboy', 'Game Over').setOrigin(0.5);
 
-        this.add.bitmapText(600, 250, 'elfboy', `Level: ${this.data.get('level')}`, 48).setOrigin(0.5);
-        this.add.bitmapText(600, 300, 'elfboy', `Score: ${this.data.get('score')}`, 48).setOrigin(0.5);
+        this.add.bitmapText(SCREEN_WIDTH / 2, gameOverText.y + 100, 'elfboy', `Level: ${this.data.get('level')}`, 48).setOrigin(0.5);
+        this.add.bitmapText(SCREEN_WIDTH / 2, gameOverText.y + 150, 'elfboy', `Score: ${this.data.get('score')}`, 48).setOrigin(0.5);
 
-        const endText = this.add.bitmapText(600, 500, 'elfboy', 'Click/tap anywhere to restart', 32).setOrigin(0.5)
+        const endText = this.add.bitmapText(SCREEN_WIDTH / 2, gameOverText.y + 300, 'elfboy', CONTINUE_TEXT, 32).setOrigin(0.5)
         TweenFactory.flash(this, endText)
 
         // Touch and mouse input

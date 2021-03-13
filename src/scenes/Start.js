@@ -4,6 +4,11 @@ import fontData from '../assets/fonts/bitmap/elfboy-classic.xml';
 import bgMusic from "../assets/sounds/starway.wav";
 
 import TweenFactory from "../factory/TweenFactory";
+import {
+    CONTINUE_TEXT,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH
+} from "../commons/constants";
 
 class StartScene extends Phaser.Scene {
     constructor() {
@@ -17,7 +22,6 @@ class StartScene extends Phaser.Scene {
         this.load.bitmapFont('elfboy', fontTexture, fontData);
 
         this.load.audio('bg_music', [bgMusic]);
-
     }
 
     create() {
@@ -25,12 +29,12 @@ class StartScene extends Phaser.Scene {
         bgMusic.setLoop(true)
         bgMusic.play()
 
-        this.add.bitmapText(600, 250, 'elfboy', 'RADORA').setOrigin(0.5);
+        const title = this.add.bitmapText(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 100, 'elfboy', 'RADORA').setOrigin(0.5);
 
-        this.add.text(515, 311, 'by');
-        this.add.image(610, 320, 'logo');
+        this.add.text(SCREEN_WIDTH / 2 - 85, title.y + 70, 'by');
+        this.add.image(SCREEN_WIDTH / 2 + 10, title.y + 79, 'logo');
 
-        const startText = this.add.bitmapText(600, 500,'elfboy', 'Click/tap anywhere to continue', 32).setOrigin(0.5)
+        const startText = this.add.bitmapText(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 100,'elfboy', CONTINUE_TEXT, 32).setOrigin(0.5)
         TweenFactory.flash(this, startText)
 
         // Touch and mouse input
@@ -39,9 +43,9 @@ class StartScene extends Phaser.Scene {
         })
 
         // Keyboard input
-        this.input.keyboard.on('keydown', (_event) => {
-            this.scene.start('PlayScene', { bgMusic: bgMusic });
-        })
+        this.input.keyboard.on('keydown-M', () => {
+            this.sound.setMute(!this.sound.mute)
+        }, this);
     }
 }
 

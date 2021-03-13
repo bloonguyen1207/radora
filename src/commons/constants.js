@@ -1,5 +1,5 @@
-export const SCREEN_WIDTH =  1200
-export const SCREEN_HEIGHT = 600
+export const SCREEN_WIDTH =  600
+export const SCREEN_HEIGHT = 1200
 
 export const MAX_ENEMY_DROP_SPEED = 10
 
@@ -7,6 +7,8 @@ export const MAX_ENEMY_SPAWN_TIME = 1500
 export const MIN_ENEMY_SPAWN_TIME = 100
 
 export const PLAYER_IMMORTAL_TIME = 3000
+
+export const CONTINUE_TEXT = 'Click/tap to continue'
 
 export const waveMiniData = {
     name: 'Wave Mini',
