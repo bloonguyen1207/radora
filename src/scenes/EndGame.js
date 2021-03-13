@@ -28,7 +28,7 @@ class EndGameScene extends Phaser.Scene {
     }
 
     create() {
-        const gameOverText = this.add.bitmapText(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 200, 'elfboy', 'Game Over').setOrigin(0.5);
+        const gameOverText = this.add.bitmapText(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 150, 'elfboy', 'Game Over').setOrigin(0.5);
 
         this.add.bitmapText(SCREEN_WIDTH / 2, gameOverText.y + 100, 'elfboy', `Level: ${this.data.get('level')}`, 48).setOrigin(0.5);
         this.add.bitmapText(SCREEN_WIDTH / 2, gameOverText.y + 150, 'elfboy', `Score: ${this.data.get('score')}`, 48).setOrigin(0.5);
