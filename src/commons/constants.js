@@ -1,6 +1,8 @@
 export const SCREEN_WIDTH =  1200
 export const SCREEN_HEIGHT = 600
 
+export const MAX_ENEMY_DROP_SPEED = 10
+
 export const MAX_ENEMY_SPAWN_TIME = 1500
 export const MIN_ENEMY_SPAWN_TIME = 100
 

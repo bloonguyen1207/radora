@@ -1,6 +1,8 @@
 import logoImg from '../assets/logo.png';
 import fontTexture from '../assets/fonts/bitmap/elfboy-classic.png';
 import fontData from '../assets/fonts/bitmap/elfboy-classic.xml';
+import bgMusic from "../assets/sounds/starway.wav";
+
 import TweenFactory from "../factory/TweenFactory";
 
 class StartScene extends Phaser.Scene {
@@ -13,10 +15,16 @@ class StartScene extends Phaser.Scene {
     preload() {
         this.load.image('logo', logoImg);
         this.load.bitmapFont('elfboy', fontTexture, fontData);
+
+        this.load.audio('bg_music', [bgMusic]);
+
     }
 
     create() {
-        // this.cameras.main.setBackgroundColor('#fff')
+        const bgMusic = this.sound.add('bg_music');
+        bgMusic.setLoop(true)
+        bgMusic.play()
+
         this.add.bitmapText(600, 250, 'elfboy', 'RADORA').setOrigin(0.5);
 
         this.add.text(515, 311, 'by');
@@ -27,12 +35,12 @@ class StartScene extends Phaser.Scene {
 
         // Touch and mouse input
         this.input.on('pointerdown', (_pointer) => {
-            this.scene.start('PlayScene');
+            this.scene.start('PlayScene', { bgMusic: bgMusic });
         })
 
         // Keyboard input
         this.input.keyboard.on('keydown', (_event) => {
-            this.scene.start('PlayScene');
+            this.scene.start('PlayScene', { bgMusic: bgMusic });
         })
     }
 }

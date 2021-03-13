@@ -5,12 +5,17 @@ import wavePlus from "../assets/protagonists/WavePlus.svg";
 import radon from "../assets/enemies/Radon.svg";
 import bullet from "../assets/bullet.png"
 
+import kill from "../assets/sounds/airthing_killed.wav";
+import explosion from "../assets/sounds/explosion.wav";
+
 import {
+    MAX_ENEMY_DROP_SPEED,
     MAX_ENEMY_SPAWN_TIME,
     MIN_ENEMY_SPAWN_TIME,
     PLAYER_IMMORTAL_TIME,
     waveMiniData
 } from "../commons/constants";
+
 import Player from "../models/Player";
 import BulletManager from "../managers/BulletManager";
 import AirthingManager from "../managers/AirthingManager";
@@ -21,20 +26,17 @@ class PlayScene extends Phaser.Scene {
         super({
             key: 'PlayScene'
         });
+    }
 
-        // TODO: get data from prev state
-        this.player;
-        this.airthings;
-        this.bullets;
-        this.scoreBoard;
-        this.liveCount;
-        this.bulletTimer;
-        this.immortalTimer;
-        this.enemyTimer;
+    init(data) {
+        this.bgMusic = data.bgMusic
     }
 
     preload() {
         this.load.bitmapFont('elfboy', fontTexture, fontData);
+
+        this.load.audio('airthing_killed', [kill]);
+        this.load.audio('ded', [explosion]);
 
         this.load.svg('waveMini', waveMini);
         this.load.svg('waveMiniMini', waveMini, {scale: .5});
@@ -46,6 +48,9 @@ class PlayScene extends Phaser.Scene {
     }
 
     create() {
+        this.killSound = this.sound.add('airthing_killed');
+        this.dedSound = this.sound.add('ded');
+
         this.data.set('lives', 3);
         this.data.set('level', 1);
         this.data.set('score', 0);
@@ -85,11 +90,11 @@ class PlayScene extends Phaser.Scene {
         this.bullets = new BulletManager(this);
 
         // Auto shoot timer
-        this.bulletTimer = this.time.addEvent({
+        this.time.addEvent({
             delay: waveMiniData.shootSpeed,
             loop: true,
             callback: () => {
-                this.bullets.fireBullet(this.player.x, this.player.y, waveMiniData.shootSpeed)
+                this.bullets.fireBullet(this.player.x, this.player.y, waveMiniData.shootSpeed);
             }
         })
 
@@ -108,12 +113,13 @@ class PlayScene extends Phaser.Scene {
     update(time, delta) {
         super.update(time, delta);
 
-        Phaser.Actions.IncY(this.airthings.getChildren(), 1);
+        Phaser.Actions.IncY(this.airthings.getChildren(), Math.min(this.data.get('level'), MAX_ENEMY_DROP_SPEED));
     }
 
     hitAirthing(bullet, airthing) {
         this.airthings.remove(airthing, true, true)
         this.bullets.killAndHide(bullet)
+        this.killSound.play()
 
         this.data.set('score', this.data.get('score') + 100)
         this.scoreBoard.setText(this.data.get('score'))
@@ -136,13 +142,15 @@ class PlayScene extends Phaser.Scene {
     hitPlayer(player, airthing) {
         this.airthings.remove(airthing, true, true)
         player.destroy()
+        this.dedSound.play()
 
         this.liveCount.killAndHide(this.liveCount.getFirstAlive())
         this.data.set('lives', this.data.get('lives') - 1)
         if (this.data.get('lives') <= 0) {
+            this.bgMusic.stop()
             this.scene.start('EndGameScene', {
                 score: this.data.get('score'),
-                level: this.data.get('level')
+                level: this.data.get('level'),
             });
         } else {
             this.addPlayerToWorld()
@@ -153,7 +161,7 @@ class PlayScene extends Phaser.Scene {
         this.player = Player.spawn(this, 'waveMini');
         TweenFactory.flash(this, this.player, false, PLAYER_IMMORTAL_TIME, 200, 200)
 
-        this.immortalTimer = this.time.addEvent({
+        this.time.addEvent({
             delay: PLAYER_IMMORTAL_TIME,
             callback: () => {
                 this.physics.add.collider(this.player, this.airthings, this.hitPlayer, null, this)
