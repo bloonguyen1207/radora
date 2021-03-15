@@ -48,8 +48,8 @@ class PlayScene extends Phaser.Scene {
     }
 
     create() {
-        this.killSound = this.sound.add('airthing_killed');
-        this.dedSound = this.sound.add('ded');
+        this.killSound = this.sound.add('airthing_killed', { volume: 0.1 });
+        this.dedSound = this.sound.add('ded', { volume: 0.1 });
 
         this.data.set('lives', 3);
         this.data.set('level', 1);
