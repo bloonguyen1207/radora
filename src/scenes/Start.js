@@ -25,7 +25,7 @@ class StartScene extends Phaser.Scene {
     }
 
     create() {
-        const bgMusic = this.sound.add('bg_music');
+        const bgMusic = this.sound.add('bg_music', { volume: 0.5 });
         bgMusic.setLoop(true)
         bgMusic.play()
 
